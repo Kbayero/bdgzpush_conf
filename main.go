@@ -2,18 +2,17 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"os"
 	"regexp"
 )
 
 func main() {
-
 	if len(os.Args) > 1 {
 		arg := os.Args[1]
 		switch arg {
-		case "sentConfig":
+		case "sendConfig":
 			//Loading environment variables
 			loadEnv()
 
@@ -21,12 +20,13 @@ func main() {
 			fmt.Println("Sending configuration...")
 			resp := setPushEventSettings()
 			fmt.Println(resp.Status)
-			myBody, _ := ioutil.ReadAll(resp.Body)
+			myBody, _ := io.ReadAll(resp.Body)
 			fmt.Println(string(myBody))
 			defer resp.Body.Close()
 
 			//Check if the configuration was sent correctly
-			match := regexp.MustCompile(`(result\\"(\\s)?:(\\s)?true)`).Match(myBody)
+			regex := regexp.MustCompile(`result":true`)
+			match := regex.Match([]byte(string(myBody)))
 			if !match {
 				log.Fatalln("Failed to send configuration")
 			}
@@ -38,7 +38,7 @@ func main() {
 			fmt.Println("Getting configuration...")
 			resp := getPushEventSettings()
 			fmt.Println(resp.Status)
-			myBody, _ := ioutil.ReadAll(resp.Body)
+			myBody, _ := io.ReadAll(resp.Body)
 			fmt.Println(string(myBody))
 			defer resp.Body.Close()
 
@@ -55,7 +55,7 @@ func main() {
 			fmt.Println("Send Event Test...")
 			resp := sendTestPushEvent()
 			fmt.Println(resp.Status)
-			myBody, _ := ioutil.ReadAll(resp.Body)
+			myBody, _ := io.ReadAll(resp.Body)
 			fmt.Println(string(myBody))
 			defer resp.Body.Close()
 		}

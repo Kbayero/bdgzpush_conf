@@ -1,6 +1,7 @@
-# bdgzpush_conf
+# BitdefenderGravityZonePushConfiguration
+### Version 1.2.0
 
-*bdgzpush_conf is a set of tools that allow you to correctly configure the Bitdefender GravityZone Cloud PUSH API*
+*BitdefenderGravityZonePushConfiguration is a set of tools that allow you to correctly configure the Bitdefender GravityZone Cloud PUSH API*
 
 ## Getting started
 _Before you can successfully configure your API, you must generate an APIKEY in your Bitdefender control account. For it:_
